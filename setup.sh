@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if ! grep -q /opt/sf-secure-fs/cron/check.sh /etc/crontab; then
 	sed -i -e "/scripts\/check\/security.sh/d" /etc/crontab
