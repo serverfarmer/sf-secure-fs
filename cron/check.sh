@@ -46,6 +46,7 @@ GENERIC=(
 	/srv/rsync
 	/srv/sites
 	/srv/mounts
+	/srv/mounts/backup
 	/srv/mounts/internal1
 	/srv/mounts/internal2
 	/srv/mounts/internal3
