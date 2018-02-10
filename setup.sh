@@ -1,7 +1,7 @@
 #!/bin/sh
 . /opt/farm/scripts/init
 
-if [ "$OSTYPE" = "freebsd" ] || [ "$OSTYPE" = "netbsd" ]; then
+if [ "$OSTYPE" = "freebsd" ] || [ "$OSTYPE" = "netbsd" ] || [ "$OSTYPE" = "qnap" ]; then
 	echo "skipping secure filesystem setup, unsupported system"
 	exit 0
 fi
