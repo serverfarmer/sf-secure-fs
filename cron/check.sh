@@ -4,6 +4,7 @@
 # Tomasz Klim, Aug 2014, Jan 2015, Jan 2018
 
 
+chmod a-rwx /usr/lib/gcc/* 2>/dev/null
 chmod 0700 /srv/rsync/* 2>/dev/null
 chmod 0711 /srv/sites/* 2>/dev/null
 chmod 0711 /srv/isync/* 2>/dev/null
@@ -28,11 +29,15 @@ GENERIC=(
 	/etc/mfs
 	/etc/motion
 	/etc/mysql
+	/etc/nagios
+	/etc/nagios/nrpe.d
 	/etc/nginx
 	/etc/nginx/sites-available
 	/etc/nginx/sites-enabled
 	/etc/samba
 	/etc/sysctl.d
+	/etc/udev
+	/etc/udev/rules.d
 	/home
 	/media
 	/mnt
