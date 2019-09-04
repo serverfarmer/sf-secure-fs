@@ -16,7 +16,6 @@ GENERIC=(
 	/app
 	/backup
 	/boot
-	/etc
 	/etc/apache2
 	/etc/apache2/sites-available
 	/etc/apache2/sites-enabled
@@ -61,16 +60,30 @@ GENERIC=(
 )
 
 
+warn() {
+	msg="$1"
+	if tty -s; then
+		echo "$msg"
+	else
+		logger -p auth.notice -t secure-fs "$msg"
+	fi
+}
+
+
+if [ ! -f /etc/local/.config/etc.no711 ]; then
+	perm=`stat -L -c %a:%U:%G /etc`
+	if [ "$perm" != "711:root:root" ]; then
+		warn "directory /etc had rights:owner 0$perm, fixed"
+		chown root:root /etc
+		chmod 0711 /etc
+	fi
+fi
+
 for D in ${GENERIC[@]}; do
 	if [ -d $D ]; then
 		perm=`stat -L -c %a:%U:%G $D`
 		if [ "$perm" != "711:root:root" ]; then
-			msg="directory $D had rights:owner 0$perm, fixed"
-			if tty -s; then
-				echo "$msg"
-			else
-				logger -p auth.notice -t secure-fs "$msg"
-			fi
+			warn "directory $D had rights:owner 0$perm, fixed"
 			chown root:root $D
 			chmod 0711 $D
 		fi
@@ -81,12 +94,7 @@ for D in `ls -d /srv/mounts/* 2>/dev/null |grep -v external`; do
 	for P in `ls -d $D/samba* 2>/dev/null`; do
 		perm=`stat -c %a:%U:%G $P`
 		if [ "$perm" != "750:root:sambashare" ]; then
-			msg="directory $P had rights:owner 0$perm, fixed"
-			if tty -s; then
-				echo "$msg"
-			else
-				logger -p auth.notice -t secure-fs "$msg"
-			fi
+			warn "directory $P had rights:owner 0$perm, fixed"
 			chown root:sambashare $P
 			chmod 0750 $P
 		fi
